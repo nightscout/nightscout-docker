@@ -1,18 +1,22 @@
-nightscout:
-  image: fokkodriesprong/cgm-remote-monitor:latest
-  links:
-   - database
-   - broker
-  ports:
-   - "80"
-  environment:
-   - MONGO_CONNECTION=mongodb://database/nightscout
-   - API_SECRET=DoNotUseThisSecret
-   - MQTT_MONITOR=mqtt://broker
-   - PORT=80
-database:
-  image: mongo:3.0.3
 broker:
-  image: prologic/mosquitto
+  image: 'prologic/mosquitto:latest'
   ports:
-   - "1883"
+    - '1883:1883'
+database:
+  image: 'tutum/mongodb:latest'
+  environment:
+    - MONGODB_PASS={{** CHANGE ME **}}
+  ports:
+    - '27017:27017'
+nightscout:
+  image: 'nightscout/cgm-remote-monitor-development:latest'
+  environment:
+    - API_SECRET={{** CHANGE ME **}}
+    - 'MONGO_CONNECTION=mongodb://admin:{{** CHANGE ME **}}@database/admin'
+    - 'MQTT_MONITOR=mqtt://broker'
+    - PORT=1337
+  links:
+    - broker
+    - database
+  ports:
+    - '1337:1337'
