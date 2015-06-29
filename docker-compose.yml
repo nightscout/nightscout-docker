@@ -1,0 +1,18 @@
+nightscout:
+  image: fokkodriesprong/cgm-remote-monitor:latest
+  links:
+   - database
+   - broker
+  ports:
+   - "80"
+  environment:
+   - MONGO_CONNECTION=mongodb://database/nightscout
+   - API_SECRET=DoNotUseThisSecret
+   - MQTT_MONITOR=mqtt://broker
+   - PORT=80
+database:
+  image: mongo:3.0.3
+broker:
+  image: prologic/mosquitto
+  ports:
+   - "1883"
