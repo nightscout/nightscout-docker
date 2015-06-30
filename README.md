@@ -42,3 +42,15 @@ When we follow the URL we get the Nightscout interface:
 ![Booting](http://i1126.photobucket.com/albums/l605/Knorfski/nightscout.jpg)
 
 If you have any idea's, don't hesitate to contact me.
+
+### Deploying the stack using Docker compose.
+
+To stack configuration is written in a [Docker Compose](https://docs.docker.com/compose/) (which is the successor of [Fig](http://www.fig.sh/)). Deploying is quick and easy:
+
+```bash
+git clone https://github.com/nightscout/nightscout-docker.git
+cd nightscout-docker
+docker-compose up
+```
+
+All images will be pulled from the registry and started by Docker.
