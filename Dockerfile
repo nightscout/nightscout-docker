@@ -12,6 +12,8 @@ RUN git clone git://github.com/nightscout/cgm-remote-monitor.git /opt/app
 RUN cd /opt/app &&  git checkout ${DEPLOY_HEAD-master}
 RUN cd /opt/app && npm install
 RUN cd /opt/app && npm run env
-EXPOSE $PORT
+EXPOSE 5000
+EXPOSE 8080
+EXPOSE 8000
 
 CMD ["node", "server.js"]
