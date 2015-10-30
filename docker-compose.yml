@@ -6,8 +6,13 @@ database:
   image: 'tutum/mongodb:latest'
   environment:
     - MONGODB_PASS={{** CHANGE ME **}}
-  ports:
-    - '27017:27017'
+
+# Uncomment if you want to expose the MongoDB port directly
+# If you're using the API interface (highly recommended) then you can 
+# safely leave this commented out 
+#  ports:
+#    - '27017:27017'
+
 nightscout:
   image: 'nightscout/cgm-remote-monitor-development:latest'
   environment:
