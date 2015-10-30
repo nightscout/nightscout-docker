@@ -1,3 +1,7 @@
+##### NOTE ####### 
+# This docker compose file requires docker compose 1.5 to be installed
+# before calling docker-compose, ensure you've ready the Readme file first
+
 broker:
   image: 'prologic/mosquitto:latest'
   ports:
@@ -5,7 +9,7 @@ broker:
 database:
   image: 'tutum/mongodb:latest'
   environment:
-    - MONGODB_PASS={{** CHANGE ME **}}
+    - MONGODB_PASS:${MONGODB_PASS}
 
 # Uncomment if you want to expose the MongoDB port directly
 # If you're using the API interface (highly recommended) then you can 
@@ -16,10 +20,10 @@ database:
 nightscout:
   image: 'nightscout/cgm-remote-monitor-development:latest'
   environment:
-    - API_SECRET={{** CHANGE ME **}}
-    - 'MONGO_CONNECTION=mongodb://admin:{{** CHANGE ME **}}@database/admin'
-    - 'MQTT_MONITOR=mqtt://{{** CHANGE ME **}}@broker'
-    - PORT=1337
+    - API_SECRET:${NIGHTSCOUT_APIKEY}
+    - 'MONGO_CONNECTION=mongodb://admin:${MONGODB_PASS}@database/admin'
+    - 'MQTT_MONITOR=mqtt://${MQTT_USER}@broker'
+    - PORT:1337
   links:
     - broker
     - database
