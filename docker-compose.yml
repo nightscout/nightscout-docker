@@ -1,27 +1,31 @@
-broker:
-  image: 'prologic/mosquitto:latest'
-  ports:
-    - '1883:1883'
-database:
-  image: 'tutum/mongodb:latest'
-  environment:
-    - MONGODB_PASS={{** CHANGE ME **}}
+version: "3"
+services:
+  broker:
+    image: 'eclipse-mosquitto'
+    ports:
+      - '1883:1883'
+  database:
+    image: 'mongo'
+    environment:
+      - 'MONGO_INITDB_ROOT_USERNAME=admin'
+      - 'MONGO_INITDB_ROOT_PASSWORD=CHANGEME'
+    ## Uncomment the ports section below to grant direct access to MongoDB
+    ## Before 2014 this was the common way to upload data to NightScout
+    ## In Summer 2014 it was deprecated in favor of the new REST API
+    # ports:
+    #  - '27017:27017'
 
-# Uncomment if you want to expose the MongoDB port directly
-# If you're using the API interface (highly recommended) then you can 
-# safely leave this commented out 
-#  ports:
-#    - '27017:27017'
-
-nightscout:
-  image: 'nightscout/cgm-remote-monitor-development:latest'
-  environment:
-    - API_SECRET={{** CHANGE ME **}}
-    - 'MONGO_CONNECTION=mongodb://admin:{{** CHANGE ME **}}@database/admin'
-    - 'MQTT_MONITOR=mqtt://{{** CHANGE ME **}}@broker'
-    - PORT=1337
-  links:
-    - broker
-    - database
-  ports:
-    - '1337:1337'
+  nightscout:
+    build:
+      context: https://github.com/nightscout/cgm-remote-monitor.git
+      dockerfile: Dockerfile.example
+    environment:
+      - 'API_SECRET=CHANGEME_PLEASE'
+      - 'MONGO_CONNECTION=mongodb://admin:CHANGEME@database/admin'
+      - 'MQTT_MONITOR=mqtt://CHANGEME@broker'
+      - 'PORT=1337'
+    depends_on:
+      - broker
+      - database
+    ports:
+      - '1337:1337'
