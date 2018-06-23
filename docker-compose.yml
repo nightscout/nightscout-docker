@@ -24,7 +24,7 @@ services:
       - 'MONGO_CONNECTION=mongodb://admin:CHANGEME@database/admin'
       - 'MQTT_MONITOR=mqtt://CHANGEME@broker'
       - 'PORT=1337'
-    links:
+    depends_on:
       - broker
       - database
     ports:
