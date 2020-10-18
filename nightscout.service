@@ -1,0 +1,21 @@
+# How to install:
+# cp ./nightscout.service /lib/systemd/system/
+# systemctl enable nightscout
+# systemctl restart nightscout
+
+[Unit]
+Description=Nightscout service to manage continuous glucose monitoring
+Documentation=https://github.com/nightscout/cgm-remote-monitor
+Requires=docker.service
+After=docker.service
+Restart=on-failure
+
+[Service]
+Type=simple
+WorkingDirectory=~/nightscout-docker
+ExecStart=docker-compose up
+ExecStop=docker-compose down
+TimeoutStartSec=10
+
+[Install]
+WantedBy=multi-user.target
