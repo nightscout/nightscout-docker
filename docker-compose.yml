@@ -18,7 +18,7 @@ services:
   nightscout:
     build:
       context: https://github.com/nightscout/cgm-remote-monitor.git
-      dockerfile: Dockerfile.example
+      dockerfile: Dockerfile
     environment:
       - 'API_SECRET=CHANGEME_PLEASE'
       - 'MONGO_CONNECTION=mongodb://admin:CHANGEME@database/admin'
